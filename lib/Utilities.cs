@@ -1,4 +1,5 @@
-﻿using NPOI.Util.Collections;
+﻿using csharp_framework.lib.model;
+using NPOI.Util.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,19 @@ namespace csharp_framework.lib
             _config = new Properties();
             _config.Load(new FileStream(filename, FileMode.Open, FileAccess.Read));
             return _config;
+        }
+
+        public static TestStatus TryAssert(Action action)
+        {
+            try
+            {
+                action();
+                return TestStatus.Passed;
+            }
+            catch (AssertionException)
+            {
+                return TestStatus.Failed;
+            }
         }
 
         public static string GetSolutionPath()

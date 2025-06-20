@@ -7,10 +7,12 @@ namespace csharp_framework.lib
 {
     public class DriverManager
     {
-        public static WebDriver InitializeBrowser(string browser)
+        private static ThreadLocal<IWebDriver> webDriver = new ThreadLocal<IWebDriver>();
+
+        public static IWebDriver GetDriver() => webDriver.Value;
+        public static void InitializeBrowser(string browser)
         {
-            ThreadLocal<WebDriver> webDriver = new ThreadLocal<WebDriver>();
-            WebDriver driver;
+            IWebDriver driver;
 
             switch (browser)
             {
@@ -30,7 +32,6 @@ namespace csharp_framework.lib
             driver.Manage().Window.Maximize();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
             webDriver.Value = driver;
-            return driver;
         }
     }
 }

@@ -8,8 +8,8 @@ namespace csharp_framework
     [TestFixture]
     public class BaseTest
     {
-        public WebDriver Driver;
-        
+        public static IWebDriver Driver => DriverManager.GetDriver();
+        //public TestReport Report;
         private static readonly string ConfigFilePath = Utilities.GetSolutionPath() + "/" + "config.ini";
 
         [OneTimeSetUp]
@@ -21,7 +21,7 @@ namespace csharp_framework
         [SetUp]
         public void BeforeMethod()
         {
-            Driver = DriverManager.InitializeBrowser(GetConfig()["browser"]);
+            DriverManager.InitializeBrowser(GetConfig()["browser"]);
         }
 
         [TearDown]
@@ -37,5 +37,10 @@ namespace csharp_framework
         }
 
         Properties GetConfig() => Utilities.GetConfig(ConfigFilePath);
+
+        public string GetScreenshot() { 
+        
+            return ((ITakesScreenshot)Driver).GetScreenshot().AsBase64EncodedString;
+        }
     }
 }
