@@ -10,7 +10,10 @@ namespace csharp_framework
     {
         public static IWebDriver Driver => DriverManager.GetDriver();
         //public TestReport Report;
-        private static readonly string ConfigFilePath = Utilities.GetSolutionPath() + "/" + "config.ini";
+        private static readonly string Sep = Path.DirectorySeparatorChar.ToString();
+        private static readonly string ConfigFilePath = Utilities.GetSolutionPath() + Sep + "config.ini";
+
+        private static readonly string JsonFilePath = Utilities.GetSolutionPath() + Sep + "test/resources/TestData.json";
 
         [OneTimeSetUp]
         public void BeforeSuite()
@@ -41,6 +44,11 @@ namespace csharp_framework
         public string GetScreenshot() { 
         
             return ((ITakesScreenshot)Driver).GetScreenshot().AsBase64EncodedString;
+        }
+
+        public static string GetJsonReader(string token)
+        {
+            return Utilities.ReadJson(JsonFilePath, token);
         }
     }
 }

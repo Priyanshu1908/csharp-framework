@@ -1,10 +1,7 @@
 ﻿using csharp_framework.lib.model;
+using Newtonsoft.Json.Linq;
 using NPOI.Util.Collections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace csharp_framework.lib
 {
@@ -36,6 +33,13 @@ namespace csharp_framework.lib
         public static string GetSolutionPath()
         {
             return Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName;
+        }
+
+        public static string ReadJson(string path, string token)
+        {
+            string text = File.ReadAllText(path);
+            var jsonObject = JToken.Parse(text);
+            return jsonObject.SelectToken(token).Value<string>();
         }
     }
 }
